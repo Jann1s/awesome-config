@@ -49,7 +49,7 @@ beautiful.notification_font = "Noto Sans Bold 14"
 
 -- This is used later as the default terminal and editor to run.
 browser = "exo-open --launch WebBrowser" or "firefox"
-filemanager = "exo-open --launch FileManager" or "thunar"
+filemanager = "exo-open --launch FileManager" or "nemo"
 gui_editor = "mousepad"
 terminal = os.getenv("TERMINAL") or "lxterminal"
 
@@ -205,7 +205,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    awful.tag({ "PRI", "WEB", "DEV", "CLI", "GAM", "SOC" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -223,6 +223,10 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
+    -- Create a systray widget
+    s.mysystray = wibox.widget.systray()
+    s.mysystray:set_base_size(28)
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
@@ -238,11 +242,14 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+            separator,
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
+            s.mysystray,
+            separator,
             mykeyboardlayout,
             separator,
             mytextclock,
+            separator,
             s.mylayoutbox,
         },
     }
@@ -326,11 +333,13 @@ globalkeys = gears.table.join(
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)           end,
               {description = "decrease the number of columns", group = "layout"}),
+
+    -- Hotkey applications
     awful.key({ modkey     }, "b", function () awful.spawn(browser)          end,
               {description = "launch Browser", group = "launcher"}),
     awful.key({ modkey, "Control"}, "Escape", function () awful.spawn("/usr/bin/rofi -show drun -modi drun") end,
               {description = "launch rofi", group = "launcher"}),
-    awful.key({ modkey,           }, "e", function () awful.spawn("/usr/bin/thunar")            end,
+    awful.key({ modkey,           }, "e", function () awful.spawn("/usr/bin/nemo")            end,
               {description = "launch filemanager", group = "launcher"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                       end,
               {description = "select previous", group = "layout"}),
@@ -524,9 +533,9 @@ awful.rules.rules = {
       properties = { titlebars_enabled = true }
     },
 	
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+    -- Set Steam to always map on the tag named "2" on screen 1.
+    { rule_any = { name = "Steam" },
+      properties = { screen = 1, tag = "5" } },
 
 
 }

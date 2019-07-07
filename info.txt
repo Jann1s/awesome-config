@@ -1,0 +1,6 @@
+Install powerline:  
+    powerline, powerline-common, powerline-fonts, python-powerline
+
+Add powerline to ~/.zshrc
+    . /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
+
