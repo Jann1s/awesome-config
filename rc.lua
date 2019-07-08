@@ -40,12 +40,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("/usr/share/awesome/themes/cesious/theme.lua")
+beautiful.init("/home/jannisl/.config/awesome/theme/theme.lua")
 beautiful.icon_theme        = "Papirus-Dark"
-beautiful.bg_normal         = "#141A1B"
-beautiful.bg_focus          = "#222B2E"
-beautiful.font              = "Noto Sans Regular 10"
-beautiful.notification_font = "Noto Sans Bold 14"
+--beautiful.bg_normal         = "#141A1B"
+--beautiful.bg_focus          = "#222B2E"
 
 -- This is used later as the default terminal and editor to run.
 browser = "exo-open --launch WebBrowser" or "firefox"
@@ -205,7 +203,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "PRI", "WEB", "DEV", "CLI", "GAM", "SOC" }, s, awful.layout.layouts[1])
+    awful.tag({ "PRI", "WEB", "DEV", "CLI", "GAM", "MED", "SOC" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -228,7 +226,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mysystray:set_base_size(28)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "bottom", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -534,9 +532,9 @@ awful.rules.rules = {
     },
 	
     -- Set Steam to always map on the tag named "2" on screen 1.
-    { rule_any = { name = "Steam" },
-      properties = { screen = 1, tag = "5" } },
-
+    { rule_any = { instance = { "TeamSpeak" } },
+      properties = { screen = 1, tag = "SOC" }
+    },
 
 }
 -- }}}
